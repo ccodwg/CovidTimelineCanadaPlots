@@ -7,17 +7,19 @@
 # GitHub: This script assumes pre-existing authentication for pushing to the CovidTimelineCanadaPlots GitHub repository.
 
 # load data
-Covid19CanadaETL::load_datasets()
+Covid19CanadaETL::load_datasets(path = NULL)
 
 # update plots
 Covid19CanadaETL::plot_datasets("plots")
 
 # check for updated files
-status <- system2("git", c("diff-index", "--quiet HEAD"))
+status <- system2("git", "diff-index --quiet HEAD")
 if (status == 0) {
   # exit without update
   cat("No files have changed. Exiting without update...", fill = TRUE)
 } else {
+  # print files that changed
+  system2("git", "diff --name-only HEAD")
   # stage data update
   cat("Staging files for update...", fill = TRUE)
   system2(
