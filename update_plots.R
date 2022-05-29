@@ -13,7 +13,8 @@ Covid19CanadaETL::load_datasets(path = NULL)
 Covid19CanadaETL::plot_datasets("plots")
 
 # check for updated files
-status <- system2("git", "diff-index --quiet HEAD")
+system2("git", "update-index --really-refresh")
+status <- system2("git", "diff-index --quiet HEAD --")
 if (status == 0) {
   # exit without update
   cat("No files have changed. Exiting without update...", fill = TRUE)
@@ -34,7 +35,7 @@ if (status == 0) {
     command = "git",
     args = c("commit",
              "-m",
-             paste0('"', 'Update plots: ', update_time, '"')
+             paste0("\"Update plots: ", update_time, "\"")
     )
   )
   # push data update
